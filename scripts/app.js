@@ -5,15 +5,15 @@ import { getKey, getCityData } from "./api_fetch.js";
 const updateCity = async (cityName) => {
   const city = await getKey(cityName);
   const cityData = await getCityData(city.Key);
-  localStorage.setItem("CITY", JSON.stringify({ city, cityData }));
+  // localStorage.setItem("CITY", JSON.stringify({ city, cityData }));
   return { city, cityData };
 };
 
 //FUNCTION TO UPDATE THE UI.
 const updateUI = ({ city, cityData }) => {
-  cityNameElement.innerHTML = `${city.EnglishName}`;
+  cityNameElement.innerHTML = `${city.EnglishName.toUpperCase()}`;
   celciusElement.innerHTML = `${cityData.Temperature.Metric.Value}`;
-  weatherConditionElement.innerHTML = `${cityData.WeatherText}`;
+  weatherConditionElement.innerHTML = `${cityData.WeatherText.toUpperCase()}`;
   if (cityData.IsDayTime) {
     backgroundElement.classList.remove("night");
     backgroundElement.classList.add("day");
@@ -31,13 +31,14 @@ const cityNameElement = document.querySelector(".city-name");
 const celciusElement = document.querySelector(".celcius");
 const weatherConditionElement = document.querySelector(".weather-info");
 const weatherCard = document.querySelector(".weather-output");
-let CITY;
 
+//DISABLED LOCAL STORAGE TO GET LIVE WEATHER.
+//let CITY;
 //TO CHECK LOCAL STORAGE TO UPDATE THE UI.
-CITY = localStorage.getItem("CITY");
-if (CITY) {
-  updateUI(JSON.parse(CITY));
-}
+// CITY = localStorage.getItem("CITY");
+// if (CITY) {
+//   updateUI(JSON.parse(CITY));
+// }
 // else {
 //   updateCity(geoplugin_city()).then((data) => {
 //     return updateUI(data);
@@ -45,9 +46,9 @@ if (CITY) {
 // }
 
 //TO UPDATE THE WEATHER BASED ON CURRENT LOCATION.
-// updateCity(geoplugin_city()).then((data) => {
-//   return updateUI(data);
-// });
+updateCity(geoplugin_city()).then((data) => {
+  return updateUI(data);
+});
 
 //GETTING USER INPUT
 inputElement.addEventListener("keyup", (event) => {
