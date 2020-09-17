@@ -5,7 +5,7 @@ import { getKey, getCityData } from "./api_fetch.js";
 const updateCity = async (cityName) => {
   const city = await getKey(cityName);
   const cityData = await getCityData(city.Key);
-  // localStorage.setItem("CITY", JSON.stringify({ city, cityData }));
+  localStorage.setItem("CITY", JSON.stringify({ city, cityData }));
   return { city, cityData };
 };
 
@@ -31,22 +31,23 @@ const cityNameElement = document.querySelector(".city-name");
 const celciusElement = document.querySelector(".celcius");
 const weatherConditionElement = document.querySelector(".weather-info");
 const weatherCard = document.querySelector(".weather-output");
-//CURRENTLY LOCAL STORAGE OPTION HAS BEEN DISABLED
-// let CITY;
+let CITY;
+
 //TO CHECK LOCAL STORAGE TO UPDATE THE UI.
-// CITY = localStorage.getItem("CITY");
-// if (CITY) {
-//   updateUI(JSON.parse(CITY));
-// } else {
+CITY = localStorage.getItem("CITY");
+if (CITY) {
+  updateUI(JSON.parse(CITY));
+}
+// else {
 //   updateCity(geoplugin_city()).then((data) => {
 //     return updateUI(data);
 //   });
 // }
 
 //TO UPDATE THE WEATHER BASED ON CURRENT LOCATION.
-updateCity(geoplugin_city()).then((data) => {
-  return updateUI(data);
-});
+// updateCity(geoplugin_city()).then((data) => {
+//   return updateUI(data);
+// });
 
 //GETTING USER INPUT
 inputElement.addEventListener("keyup", (event) => {
