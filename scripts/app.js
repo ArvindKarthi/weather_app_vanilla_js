@@ -46,9 +46,9 @@ const weatherCard = document.querySelector(".weather-output");
 // }
 
 //TO UPDATE THE WEATHER BASED ON CURRENT LOCATION.
-updateCity(geoplugin_city()).then((data) => {
-  return updateUI(data);
-});
+// updateCity(geoplugin_city()).then((data) => {
+//   return updateUI(data);
+// });
 
 //GETTING USER INPUT
 inputElement.addEventListener("keyup", (event) => {
@@ -56,9 +56,13 @@ inputElement.addEventListener("keyup", (event) => {
   const cityName = inputElement.value.trim();
   if (isEnter && cityName) {
     weatherCard.classList.add("hide");
-    updateCity(cityName).then((data) => {
-      return updateUI(data);
-    });
+    updateCity(cityName)
+      .then((data) => {
+        return updateUI(data);
+      })
+      .catch((err) => {
+        alert("please enter a valid city name");
+      });
     inputElement.value = "";
   }
 });
